@@ -1,14 +1,76 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function CatSprite() {
+export default function CatSprite({
+  position,
+  rotation,
+  moveSprite,
+  size,
+  moveSetSprite,
+}) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [catPosition, setCatPosition] = useState(position);
+  const [catRotation, setCatRotation] = useState(rotation);
+
+  useEffect(() => {
+    setCatPosition(position);
+    setCatRotation(rotation);
+  }, [position, rotation]);
+
+  const handleMouseDown = (event) => {
+    console.log("Mouse down", event);
+    setIsDragging(true);
+    const { clientX, clientY } = event;
+    console.log("Initial position", clientX, clientY);
+    const offsetX = clientX - catPosition.x;
+    const offsetY = clientY - catPosition.y;
+    setDragOffset({ x: offsetX, y: offsetY });
+  };
+
+  const handleMouseMove = (event) => {
+    if (isDragging) {
+      console.log("Mouse move", event);
+      const { clientX, clientY } = event;
+      const newMouseX = clientX - dragOffset.x;
+      const newMouseY = clientY - dragOffset.y;
+      console.log("New mouse position", newMouseX, newMouseY);
+      const dx = newMouseX - catPosition.x;
+      const dy = newMouseY - catPosition.y;
+      setCatPosition((prevPosition) => ({
+        x: prevPosition.x + dx,
+        y: prevPosition.y + dy,
+      }));
+    }
+  };
+
+  const handleMouseUp = () => {
+    console.log("Mouse up");
+    setIsDragging(false);
+    moveSprite(catPosition);
+    moveSetSprite(catPosition);
+  };
+
+  const stepSize = 10;
+  const radians = (catRotation * Math.PI) / 180;
+  const newX = catPosition.x + stepSize * Math.cos(radians);
+  const newY = catPosition.y + stepSize * Math.sin(radians);
+  const updatedPosition = { x: newX, y: newY };
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="95.17898101806641"
-      height="100.04156036376953"
+      width={size}
+      height={size}
       viewBox="0.3210171699523926 0.3000000357627869 95.17898101806641 100.04156036376953"
       version="1.1"
       xmlSpace="preserve"
+      style={{
+        transform: `translate(${updatedPosition.x}px, ${updatedPosition.y}px) rotate(${rotation}deg)`,
+        position: "absolute",
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       <g>
         <g id="Page-1" stroke="none" fillRule="evenodd">
