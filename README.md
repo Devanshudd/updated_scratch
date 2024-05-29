@@ -7,7 +7,7 @@
 
 ## Checkout this on Playground:
 
-[https://scratch-clone-assignment.vercel.app/](https://updated-scratch.vercel.app/)
+[https://updated-scratch.vercel.app/](https://updated-scratch.vercel.app/)
 
 
 ## Updates:
