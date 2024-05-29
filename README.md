@@ -1,4 +1,3 @@
-[updated_scratch.webm](https://github.com/Devanshudd/scratch_clone_assignment/assets/100607040/bbbd7981-f1dd-4ef8-b7c9-0fc8153714e9)# Scratch GUI Clone 
 
 ## To run this project:
 
